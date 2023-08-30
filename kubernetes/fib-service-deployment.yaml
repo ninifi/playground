@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: fib-service
+  name: fib-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: fib-service
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/playground-default: "true"
+        io.kompose.service: fib-service
+    spec:
+      containers:
+        - env:
+            - name: FLAGD_HOST
+              value: flagd
+            - name: OTEL_EXPORTER_JAEGER_AGENT_HOST
+              value: jaeger
+            - name: OTEL_EXPORTER_JAEGER_AGENT_PORT
+              value: "6832"
+            - name: OTEL_SERVICE_NAME
+              value: fibonacci-service
+          image: ghcr.io/open-feature/playground-fib-service:v0.11.0
+          name: fib-service
+          ports:
+            - containerPort: 30001
+              hostPort: 30001
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

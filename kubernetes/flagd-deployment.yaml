@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: flagd
+  name: flagd
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: flagd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/playground-default: "true"
+        io.kompose.service: flagd
+    spec:
+      containers:
+        - args:
+            - start
+            - --cors-origin
+            - '*'
+            - --uri
+            - file://etc/flagd/flags.json
+          image: ghcr.io/open-feature/flagd:v0.5.3
+          name: flagd
+          ports:
+            - containerPort: 8013
+              hostPort: 8013
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /etc/flagd/flags.json
+              name: flagd-claim0
+      restartPolicy: Always
+      volumes:
+        - name: flagd-claim0
+          persistentVolumeClaim:
+            claimName: flagd-claim0
+status: {}

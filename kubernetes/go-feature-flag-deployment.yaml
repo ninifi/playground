@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: go-feature-flag
+  name: go-feature-flag
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: go-feature-flag
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/playground-default: "true"
+        io.kompose.service: go-feature-flag
+    spec:
+      containers:
+        - image: thomaspoignant/go-feature-flag-relay-proxy:v1.10.3
+          name: go-feature-flag
+          ports:
+            - containerPort: 1031
+              hostPort: 1031
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /goff
+              name: go-feature-flag-claim0
+      restartPolicy: Always
+      volumes:
+        - name: go-feature-flag-claim0
+          persistentVolumeClaim:
+            claimName: go-feature-flag-claim0
+status: {}

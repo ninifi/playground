@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: fib-service
+  name: fib-service
+  namespace: default
+spec:
+  ports:
+    - name: "30001"
+      port: 30001
+      targetPort: 30001
+  selector:
+    io.kompose.service: fib-service
+status:
+  loadBalancer: {}

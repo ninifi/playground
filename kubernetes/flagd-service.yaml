@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: flagd
+  name: flagd
+  namespace: default
+spec:
+  ports:
+    - name: "8013"
+      port: 8013
+      targetPort: 8013
+  selector:
+    io.kompose.service: flagd
+status:
+  loadBalancer: {}

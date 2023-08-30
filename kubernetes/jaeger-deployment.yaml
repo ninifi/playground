@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: jaeger
+  name: jaeger
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: jaeger
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/playground-default: "true"
+        io.kompose.service: jaeger
+    spec:
+      containers:
+        - image: jaegertracing/all-in-one:1.45
+          name: jaeger
+          ports:
+            - containerPort: 16686
+              hostPort: 16686
+              protocol: TCP
+            - containerPort: 6832
+              hostPort: 6832
+              protocol: UDP
+          resources: {}
+      restartPolicy: Always
+status: {}
