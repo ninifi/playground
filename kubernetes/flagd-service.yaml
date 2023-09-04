@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: flagd
   name: flagd
-  namespace: default
+  namespace: openfeature
 spec:
   ports:
     - name: "8013"
@@ -18,3 +18,16 @@ spec:
     io.kompose.service: flagd
 status:
   loadBalancer: {}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flagd-external
+spec:
+  type: LoadBalancer
+  selector:
+    io.kompose.service: flagd
+  ports:
+  - name: http
+    port: 8013
+    targetPort: 8013

@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: demo
   name: demo
-  namespace: default
+  namespace: openfeature
 spec:
   ports:
     - name: "30000"
@@ -18,3 +18,16 @@ spec:
     io.kompose.service: demo
 status:
   loadBalancer: {}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-external
+spec:
+  type: LoadBalancer
+  selector:
+    io.kompose.service: demo
+  ports:
+  - name: http
+    port: 30000
+    targetPort: 30000

@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: demo
   name: demo
-  namespace: default
+  namespace: openfeature
 spec:
   replicas: 1
   selector:
@@ -40,6 +40,8 @@ spec:
               value: jaeger
             - name: OTEL_EXPORTER_JAEGER_AGENT_PORT
               value: "6832"
+            - name: FLAGD_HOST_WEB
+              value: "4.157.144.87"
           image: ghcr.io/open-feature/playground-app:v0.11.0
           name: demo
           ports:
@@ -48,7 +50,7 @@ spec:
               protocol: TCP
           resources: {}
           volumeMounts:
-            - mountPath: /opt/playground/config/flagd/flags.json
+            - mountPath: /opt/playground/config/flagd
               name: demo-claim0
       restartPolicy: Always
       volumes:

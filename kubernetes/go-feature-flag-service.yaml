@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: go-feature-flag
   name: go-feature-flag
-  namespace: default
+  namespace: openfeature
 spec:
   ports:
     - name: "1031"

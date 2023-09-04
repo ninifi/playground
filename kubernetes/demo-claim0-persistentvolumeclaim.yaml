@@ -5,7 +5,7 @@ metadata:
   labels:
     io.kompose.service: demo-claim0
   name: demo-claim0
-  namespace: default
+  namespace: openfeature
 spec:
   accessModes:
     - ReadWriteOnce

@@ -5,7 +5,7 @@ metadata:
   labels:
     io.kompose.service: flagd-claim0
   name: flagd-claim0
-  namespace: default
+  namespace: openfeature
 spec:
   accessModes:
     - ReadWriteOnce
