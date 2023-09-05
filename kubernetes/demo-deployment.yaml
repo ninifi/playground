@@ -42,6 +42,10 @@ spec:
               value: "6832"
             - name: FLAGD_HOST_WEB
               value: "4.157.144.87"
+            #- name: FLAGSMITH_ENV_KEY
+            #  value: REPLACE_FLAGSMITH_SERVER_SIDE_KEY
+            #- name: FLAGSMITH_ENV_KEY_WEB
+            #  value: FLAGSMITH_CLIENT_SIDE_KEY
           image: ghcr.io/ninifi/open-feature_playground-app:v0.1
           name: demo
           ports:
