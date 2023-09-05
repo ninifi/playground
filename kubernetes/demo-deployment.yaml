@@ -42,7 +42,7 @@ spec:
               value: "6832"
             - name: FLAGD_HOST_WEB
               value: "4.157.144.87"
-          image: ghcr.io/open-feature/playground-app:v0.11.0
+          image: ghcr.io/ninifi/open-feature_playground-app:v0.1
           name: demo
           ports:
             - containerPort: 30000
