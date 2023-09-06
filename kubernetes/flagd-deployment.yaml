@@ -32,7 +32,7 @@ spec:
             - --cors-origin
             - '*'
             - --uri
-            - https://raw.githubusercontent.com/ninifi/playground/main/config/flagd/flags.json
+            - file://etc/flagd/flags.json
           image: ghcr.io/open-feature/flagd:v0.5.3
           name: flagd
           ports:
@@ -41,11 +41,11 @@ spec:
               protocol: TCP
           resources: {}
           volumeMounts:
-            - mountPath: /etc/flagd/flags.json
-              name: flagd-claim0
+            - mountPath: /etc/flagd
+              name: demo-claim0
       restartPolicy: Always
       volumes:
-        - name: flagd-claim0
+        - name: demo-claim0
           persistentVolumeClaim:
-            claimName: flagd-claim0
+            claimName: demo-claim0
 status: {}
