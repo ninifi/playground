@@ -16,12 +16,15 @@ import { HarnessWebProvider } from '@openfeature/web-harness-provider';
 import { LaunchDarklyProvider } from '@openfeature/web-launchdarkly-provider';
 import { NOOP_PROVIDER, OpenFeature, Provider } from '@openfeature/web-sdk';
 import { SplitWebProvider } from '@openfeature/web-split-provider';
+import { TourProvider } from '@reactour/tour';
 import Ajv, { AnySchema, ErrorObject, ValidateFunction } from 'ajv';
 import EventEmitter from 'eventemitter3';
 import { Component, ReactNode } from 'react';
 import Fib3r from './demos/fib3r/fib3r-demo';
 import { FLAGD_PROVIDER } from './constants';
-import { JsonOutput } from './json-editor';
+import { Footer } from './footer';
+import { JsonEditor, JsonOutput } from './json-editor';
+import { styledFib3rSteps } from './demos/fib3r/tour';
 import { JSON_UPDATED } from './types';
 import { getData } from './utils';
 
@@ -33,7 +36,7 @@ type ProviderMap = Record<
   }
 >;
 
-export class Demos extends Component<
+export class DemosAdmin extends Component<
   Readonly<Record<string, never>>,
   {
     json: any;
@@ -135,7 +138,40 @@ export class Demos extends Component<
   override render(): ReactNode {
     return (
       <>
-        <Fib3r tourOpen={this.state.tourOpen} jsonUpdated={this.jsonUpdatedEvent} />
+          <TourProvider
+            steps={styledFib3rSteps}
+            maskClassName="tour-mask"
+            onClickMask={() => undefined}
+            padding={10}
+            disableFocusLock={true}
+            defaultOpen={false}
+            onClickClose={() => this.setState({ tourOpen: false })}
+          >
+            <Fib3r tourOpen={this.state.tourOpen} jsonUpdated={this.jsonUpdatedEvent} />
+
+            <Footer
+              tourAvailable={this.shouldShowEditor(this.state.currentProvider)}
+              availableProviders={this.state.availableProviders}
+              currentProvider={this.state.currentProvider}
+              onOpenTour={() => {
+                this.setState({ tourOpen: true });
+              }}
+              onSelectProvider={this.onSelectProvider.bind(this)}
+            />
+            {/* editor */}
+            <div>
+              <JsonEditor
+                errorMessage={
+                  this.state.jsonErrors
+                    ? `${this.state.jsonErrors?.[0].schemaPath} ${this.state.jsonErrors?.[0].message}`
+                    : undefined
+                }
+                hidden={!this.state.editorOn}
+                callBack={this.onJsonUpdate.bind(this)}
+                json={this.state.json}
+              />
+            </div>
+          </TourProvider>
       </>
     );
   }
