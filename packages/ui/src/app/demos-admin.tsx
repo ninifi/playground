@@ -147,7 +147,7 @@ export class DemosAdmin extends Component<
             defaultOpen={false}
             onClickClose={() => this.setState({ tourOpen: false })}
           >
-            <Fib3r tourOpen={this.state.tourOpen} jsonUpdated={this.jsonUpdatedEvent} />
+            {/*<Fib3r tourOpen={this.state.tourOpen} jsonUpdated={this.jsonUpdatedEvent} />*/}
 
             <Footer
               tourAvailable={this.shouldShowEditor(this.state.currentProvider)}

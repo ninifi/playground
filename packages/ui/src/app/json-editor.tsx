@@ -27,7 +27,7 @@ export class JsonEditor extends React.Component<{
       <div
         className="json-editor"
         style={{
-          width: this.props.hidden ? '0' : '33vw',
+          width: this.props.hidden ? '0' : '100vw',
           overflow: 'hidden',
           height: HEIGHT_MINUS_HEADER,
           position: 'absolute',
@@ -40,7 +40,7 @@ export class JsonEditor extends React.Component<{
           placeholder={this.props.json}
           locale={locale.default}
           height="100%"
-          width="33vw"
+          width="100vw"
           style={{
             body: {
               height: '100%',
